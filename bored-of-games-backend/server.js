@@ -1,5 +1,7 @@
+require("dotenv").config();
 const express = require('express');
 const cors = require('cors');
+const axios = require("axios");
 const bodyParser = require('body-parser');
 const db = require('./db');
 require('dotenv').config();
@@ -9,6 +11,39 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
+
+const RAWG_API_KEY = process.env.RAWG_API_KEY;
+
+// Search for games from RAWG API
+app.get("/search-game", async (req, res) => {
+  const { query } = req.query;
+  
+  if (!query) {
+    return res.status(400).json({ error: "Missing search query" });
+  }
+
+  try {
+    console.log(`Fetching RAWG data for: ${query}`);
+    const response = await axios.get(
+      `https://api.rawg.io/api/games?key=${RAWG_API_KEY}&search=${query}`
+    );
+
+    // Extract only necessary details
+    const games = response.data.results.map((game) => ({
+      id: game.id,
+      name: game.name,
+      released: game.released ? game.released.split("-")[0] : "Unknown", // Extract year only
+    }));
+
+    res.json(games);
+  } catch (error) {
+    console.error("RAWG API Error:", error.response ? error.response.data : error.message);
+    res.status(500).json({ error: "Failed to fetch games from RAWG" });
+  }
+});
+
+
+
 
 // Test MySQL connection
 db.query('SELECT 1')

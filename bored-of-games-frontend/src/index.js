@@ -1,14 +1,15 @@
 import React from "react";
-import ReactDOM from "react-dom/client"; // ✅ Import createRoot
+import ReactDOM from "react-dom/client"; // Updated import for React 18
 import App from "./App";
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "./theme";
+import theme from "./theme";
 import CssBaseline from "@mui/material/CssBaseline";
 
-const root = ReactDOM.createRoot(document.getElementById("root")); // ✅ Use createRoot
+// Create root and render App
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ThemeProvider theme={theme}>
-    <CssBaseline /> {/* Ensures global Material UI styles */}
+    <CssBaseline />
     <App />
   </ThemeProvider>
 );

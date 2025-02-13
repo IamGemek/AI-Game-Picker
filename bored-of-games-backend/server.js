@@ -35,12 +35,16 @@ app.post("/recommend-games", async (req, res) => {
 
   try {
     // Use GPT-4 to generate game recommendations
-    const prompt = `Based on these gaming preferences, suggest 5 video games:
-    - Favorite genres: ${genres.length > 0 ? genres.join(", ") : "None specified"}
-    - Favorite games: ${favoriteGames.length > 0 ? favoriteGames.map((g) => g.name).join(", ") : "None specified"}
-    - Preferred platforms: ${platforms.length > 0 ? platforms.join(", ") : "None specified"}
-    
-    Provide only the game names in a comma-separated list, no extra text.`;
+    const prompt = `I am looking for video game recommendations. 
+The user has specified the following preferences:
+- Favorite genres: ${genres.length > 0 ? genres.join(", ") : "None specified"}
+- Favorite games: ${favoriteGames.length > 0 ? favoriteGames.map((g) => g.name).join(", ") : "None specified"}
+- Preferred platforms: ${platforms.length > 0 ? platforms.join(", ") : "None specified"}
+
+Based on these preferences, suggest 5 **highly relevant** video games. 
+**Ensure the recommended games match the user's favorite genres.**
+If the user selects the horror genre, do NOT include games that aren't horror.
+ONLY return the names of the games in a comma-separated format (e.g., "Resident Evil 4, Silent Hill 2, Dead Space, Outlast, Amnesia: The Dark Descent").`;
 
     console.log("Generated Prompt for OpenAI:", prompt); // Debugging
 

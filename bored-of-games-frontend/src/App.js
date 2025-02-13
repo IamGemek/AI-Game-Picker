@@ -4,6 +4,9 @@ import { Container, Typography } from "@mui/material";
 import GamePreferencesForm from "./components/GamePreferencesForm";
 import NavBar from "./components/NavBar";
 import Recommendations from "./components/Recommendations";
+import SignIn from "./components/Signin";
+import SignUp from "./components/SignUp";
+import { Box } from "@mui/material";
 
 function App() {
   const [preferences, setPreferences] = useState(null);
@@ -20,6 +23,12 @@ function App() {
         <Typography variant="h3" align="center" gutterBottom>
           🎮 Bored of Games?
         </Typography>
+        <Box sx={{ textAlign: "center", marginTop: "20px" }}>
+  <Typography variant="h5" gutterBottom>
+    Answer these questions and find out a new game for you to enjoy!
+  </Typography>
+</Box>
+
         <Routes>
           <Route
             path="/"
@@ -29,6 +38,8 @@ function App() {
             path="/recommendations"
             element={<Recommendations preferences={preferences} />}
           />
+          <Route path="/signin" element={<SignIn />} /> {/* ✅ Sign-In Route */}
+          <Route path="/signup" element={<SignUp />} /> {/* ✅ Sign-Up Route */}
         </Routes>
         {preferences && (
           <Typography variant="h6" color="primary" style={{ marginTop: "20px" }}>
